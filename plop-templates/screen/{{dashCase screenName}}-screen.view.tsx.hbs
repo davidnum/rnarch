@@ -1,0 +1,35 @@
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
+
+import {
+  {{pascalCase screenName}}ScreenViewActions,
+  {{pascalCase screenName}}ScreenViewState,
+} from './{{dashCase screenName}}-screen.types';
+
+interface Props {
+  readonly state: {{pascalCase screenName}}ScreenViewState;
+  readonly actions: {{pascalCase screenName}}ScreenViewActions;
+}
+
+export const {{pascalCase screenName}}Screen = observer<Props>(({ actions, state }) => {
+  if (state.isLoading) {
+    return <Text>Loading</Text>;
+  }
+
+  if (state.hasError) {
+    return <Text>Error</Text>;
+  }
+
+  return (
+    <View>
+      <Text>{state.text}</Text>
+
+      <Pressable onPress={actions.finish}>
+        <Text>Finish</Text>
+      </Pressable>
+    </View>
+  );
+});
+
+{{pascalCase screenName}}Screen.displayName = '{{pascalCase screenName}}Screen';

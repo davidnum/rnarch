@@ -1,0 +1,28 @@
+import { inject, injectable, interfaces } from 'inversify';
+
+import { withViewModel } from '#core';
+
+import {
+  {{pascalCase name}}Screen,
+  {{pascalCase name}}ScreenProps,
+  {{pascalCase name}}ScreenViewActions,
+  {{pascalCase name}}ScreenViewModel,
+  {{pascalCase name}}ScreenViewState,
+} from './presentation';
+
+@injectable()
+export class ScreensFactory {
+  constructor(
+    @inject({{pascalCase name}}ScreenViewModel.autoFactory)
+    private readonly {{camelCase name}}ScreenViewModel: interfaces.AutoFactory<{{pascalCase name}}ScreenViewModel>,
+  ) {}
+
+  public create{{pascalCase name}}Screen = (): React.ComponentType<{{pascalCase name}}ScreenProps> => {
+    return withViewModel<
+      {{pascalCase name}}ScreenProps,
+      {{pascalCase name}}ScreenViewState,
+      {{pascalCase name}}ScreenViewActions,
+      {{pascalCase name}}ScreenViewModel
+    >(this.{{camelCase name}}ScreenViewModel)({{pascalCase name}}Screen);
+  };
+}

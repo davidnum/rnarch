@@ -1,0 +1,110 @@
+import { mock } from 'jest-mock-extended';
+import { Either } from 'monet';
+
+import {
+  Get{{pascalCase screenName}}UseCase,
+  Get{{pascalCase screenName}}Failure,
+} from '#features/{{dashCase name}}/domain';
+import { {{pascalCase screenName}}ScreenViewModelImpl } from '#features/{{dashCase name}}/presentation/screens/{{dashCase screenName}}';
+
+describe('{{pascalCase screenName}} screen view model', () => {
+  it('should have correct initial state', () => {
+    // arrange
+    const get{{pascalCase screenName}}UseCase = mock<Get{{pascalCase screenName}}UseCase>();
+
+    // act
+    const viewModel = new {{pascalCase screenName}}ScreenViewModelImpl(get{{pascalCase screenName}}UseCase);
+
+    // assert
+    expect(viewModel.viewState).toEqual({
+      text: '',
+      isLoading: false,
+      hasError: false,
+    });
+  });
+
+  it('should call Get{{pascalCase screenName}}UseCase on init', async () => {
+    // arrange
+    const get{{pascalCase screenName}}UseCase = mock<Get{{pascalCase screenName}}UseCase>();
+    get{{pascalCase screenName}}UseCase.execute.mockResolvedValue(Either.Right({ text: '' }));
+    const viewModel = new {{pascalCase screenName}}ScreenViewModelImpl(get{{pascalCase screenName}}UseCase);
+
+    // act
+    viewModel.init();
+
+    // assert
+    expect(get{{pascalCase screenName}}UseCase.execute).toBeCalled();
+  });
+
+  it('should have correct state when Get{{pascalCase screenName}}UseCase started', async () => {
+    // arrange
+    const get{{pascalCase screenName}}UseCase = mock<Get{{pascalCase screenName}}UseCase>();
+    get{{pascalCase screenName}}UseCase.execute.mockResolvedValue(Either.Right({ text: '' }));
+    const viewModel = new {{pascalCase screenName}}ScreenViewModelImpl(get{{pascalCase screenName}}UseCase);
+
+    // act
+    viewModel.init();
+
+    // assert
+    expect(viewModel.viewState).toEqual({
+      text: '',
+      isLoading: true,
+      hasError: false,
+    });
+  });
+
+  it('should have correct state when Get{{pascalCase screenName}}UseCase succeeded', async () => {
+    // arrange
+    const get{{pascalCase screenName}}UseCase = mock<Get{{pascalCase screenName}}UseCase>();
+    get{{pascalCase screenName}}UseCase.execute.mockResolvedValue(
+      Either.right({ text: '{{dashCase screenName}}' }),
+    );
+    const viewModel = new {{pascalCase screenName}}ScreenViewModelImpl(get{{pascalCase screenName}}UseCase);
+
+    // act
+    viewModel.init();
+    await new Promise(process.nextTick);
+
+    // assert
+    expect(viewModel.viewState).toEqual({
+      text: '{{dashCase screenName}}',
+      isLoading: false,
+      hasError: false,
+    });
+  });
+
+  it('should have correct state when Get{{pascalCase screenName}}UseCase failed', async () => {
+    // arrange
+    const get{{pascalCase screenName}}UseCase = mock<Get{{pascalCase screenName}}UseCase>();
+    get{{pascalCase screenName}}UseCase.execute.mockResolvedValue(
+      Either.left(new Get{{pascalCase screenName}}Failure('error')),
+    );
+    const viewModel = new {{pascalCase screenName}}ScreenViewModelImpl(get{{pascalCase screenName}}UseCase);
+
+    // act
+    viewModel.init();
+    await new Promise(process.nextTick);
+
+    // assert
+    expect(viewModel.viewState).toEqual({
+      text: '',
+      isLoading: false,
+      hasError: true,
+    });
+  });
+
+  it('should call onFinish from props when finish action performed', async () => {
+    // arrange
+    const get{{pascalCase screenName}}UseCase = mock<Get{{pascalCase screenName}}UseCase>();
+    const onFinish = jest.fn();
+    get{{pascalCase screenName}}UseCase.execute.mockResolvedValue(Either.Right({ text: '' }));
+    const viewModel = new {{pascalCase screenName}}ScreenViewModelImpl(get{{pascalCase screenName}}UseCase);
+
+    // act
+    viewModel.update({ onFinished: onFinish });
+    viewModel.viewActions.finish?.();
+
+    // assert
+    expect(onFinish).toBeCalled();
+  });
+});

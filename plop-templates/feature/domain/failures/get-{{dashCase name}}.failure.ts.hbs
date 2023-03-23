@@ -1,0 +1,19 @@
+import { BaseFailure, Failure } from '#core';
+
+const CODE = 'GET_{{constantCase name}}_ERROR';
+
+export class Get{{pascalCase name}}Failure extends BaseFailure {
+  public static is(failure: Failure): failure is Get{{pascalCase name}}Failure {
+    return failure.code === CODE;
+  }
+
+  public static fromFailure(failure: Failure): Get{{pascalCase name}}Failure {
+    return new Get{{pascalCase name}}Failure(failure.message);
+  }
+
+  public static fromError(error: Error): Get{{pascalCase name}}Failure {
+    return new Get{{pascalCase name}}Failure(error.message);
+  }
+
+  public readonly code: typeof CODE = CODE;
+}

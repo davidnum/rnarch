@@ -1,0 +1,21 @@
+import { injectable } from 'inversify';
+import { Either } from 'monet';
+
+import { Failure } from '#core';
+
+import { {{pascalCase name}}DataMapper } from '#features/{{dashCase name}}/data/data-mappers';
+import { {{pascalCase name}}RemoteDataSource } from '#features/{{dashCase name}}/data/data-sources';
+import { {{pascalCase name}}Model, {{pascalCase name}}Repository } from '#features/{{dashCase name}}/domain';
+
+@injectable()
+export class {{pascalCase name}}RepositoryImpl implements {{pascalCase name}}Repository {
+  constructor(
+    private readonly dataSource: {{pascalCase name}}RemoteDataSource,
+    private readonly dataMapper: {{pascalCase name}}DataMapper,
+  ) {}
+
+  public async get{{pascalCase name}}(): Promise<Either<Failure, {{pascalCase name}}Model>> {
+    const result = await this.dataSource.get{{pascalCase name}}();
+    return result.map(this.dataMapper.toModel);
+  }
+}

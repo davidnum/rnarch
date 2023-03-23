@@ -1,0 +1,34 @@
+import { injectable } from 'inversify';
+import { Either } from 'monet';
+
+import { UseCase } from '#core';
+
+import { Get{{pascalCase name}}Failure } from '#features/{{dashCase name}}/domain/failures';
+import {
+  {{pascalCase name}}Model,
+  {{pascalCase name}}ModelSchema,
+} from '#features/{{dashCase name}}/domain/models';
+import { {{pascalCase name}}Repository } from '#features/{{dashCase name}}/domain/repositories';
+import { ModelValidator } from '#shared/validation';
+
+@injectable()
+export class Get{{pascalCase name}}UseCase
+  implements UseCase<Either<Get{{pascalCase name}}Failure, {{pascalCase name}}Model>>
+{
+  constructor(
+    private readonly {{camelCase name}}Repository: {{pascalCase name}}Repository,
+    private readonly validator: ModelValidator,
+  ) {}
+
+  public async execute() {
+    const result = await this.{{camelCase name}}Repository.get{{pascalCase name}}();
+    return result
+      .flatMap(
+        this.validator.validate(
+          {{pascalCase name}}ModelSchema.parse,
+          Get{{pascalCase name}}Failure.fromError,
+        ),
+      )
+      .leftMap(Get{{pascalCase name}}Failure.fromFailure);
+  }
+}

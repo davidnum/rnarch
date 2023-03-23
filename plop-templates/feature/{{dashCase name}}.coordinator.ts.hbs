@@ -1,0 +1,49 @@
+import { injectable } from 'inversify';
+import { Either } from 'monet';
+
+import { ScreensFactory } from './{{dashCase name}}.screens-factory';
+import { {{pascalCase name}}ScreenProps } from './presentation';
+import { {{pascalCase name}}FeatureCoordinator, CoordinatorProps, Screens } from './types';
+
+import { Router } from '#infrastructure/router';
+import { CoordinatorFlowFailure } from '#shared/failures';
+
+@injectable()
+export class {{pascalCase name}}FeatureCoordinatorImpl
+  implements {{pascalCase name}}FeatureCoordinator
+{
+  private isInitialized = false;
+
+  constructor(
+    private readonly router: Router,
+    private readonly screenFactories: ScreensFactory,
+  ) {}
+
+  public init = (): void => {
+    if (this.isInitialized) {
+      return;
+    }
+
+    this.router.registerComponent<{{pascalCase name}}ScreenProps>(
+      Screens.{{pascalCase name}},
+      this.screenFactories.create{{pascalCase name}}Screen,
+    );
+    this.isInitialized = true;
+  };
+
+  public startFlow = (
+    props: CoordinatorProps,
+  ): Either<CoordinatorFlowFailure, void> => {
+    if (!this.isInitialized) {
+      return Either.Left(
+        new CoordinatorFlowFailure('{{pascalCase name}}Coordinator is not initialized'),
+      );
+    }
+
+    this.router.setStackRoot<{{pascalCase name}}ScreenProps>(Screens.{{pascalCase name}}, {
+      onFinished: props.onFlowCompleted,
+    });
+
+    return Either.Right(undefined);
+  };
+}

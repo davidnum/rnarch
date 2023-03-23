@@ -1,0 +1,17 @@
+import { render } from '@testing-library/react-native';
+import React from 'react';
+
+import { {{pascalCase componentName}} } from '#features/{{dashCase name}}/presentation/components';
+
+describe('{{pascalCase componentName}} component', () => {
+  it('should render provide text', () => {
+    // arrange
+    const { getByText } = render(<{{pascalCase componentName}} text="{{pascalCase componentName}}" />);
+
+    // act
+    const text = getByText('{{pascalCase componentName}}');
+
+    // assert
+    expect(text).toBeVisible();
+  });
+});

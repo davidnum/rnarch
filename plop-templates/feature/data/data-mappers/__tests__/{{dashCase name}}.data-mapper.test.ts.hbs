@@ -1,0 +1,16 @@
+import { {{pascalCase name}}DataMapper } from '#features/{{dashCase name}}/data/data-mappers';
+import { {{pascalCase name}}Dto } from '#features/{{dashCase name}}/data/dto';
+
+describe('{{pascalCase name}}DataMapper', () => {
+  it('should return an {{dashCase name}} model', () => {
+    // arrange
+    const dto: {{pascalCase name}}Dto = { value: '{{dashCase name}}' };
+    const dataMapper = new {{pascalCase name}}DataMapper();
+
+    // act
+    const result = dataMapper.toModel(dto);
+
+    // assert
+    expect(result).toEqual({ text: '{{dashCase name}}' });
+  });
+});

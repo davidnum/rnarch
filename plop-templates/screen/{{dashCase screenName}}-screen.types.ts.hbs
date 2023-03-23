@@ -1,0 +1,25 @@
+import { ViewModel } from '#core';
+
+export interface {{pascalCase screenName}}ScreenProps {
+  onFinished(): void;
+}
+
+export interface {{pascalCase screenName}}ScreenViewState {
+  readonly isLoading: boolean;
+  readonly hasError: boolean;
+  readonly text: string;
+}
+
+export interface {{pascalCase screenName}}ScreenViewActions {
+  finish?(): void;
+}
+
+export abstract class {{pascalCase screenName}}ScreenViewModel extends ViewModel<
+  {{pascalCase screenName}}ScreenProps,
+  {{pascalCase screenName}}ScreenViewState,
+  {{pascalCase screenName}}ScreenViewActions
+> {
+  public static readonly autoFactory = Symbol(
+    '{{pascalCase screenName}}ScreenViewModel.autoFactory',
+  );
+}

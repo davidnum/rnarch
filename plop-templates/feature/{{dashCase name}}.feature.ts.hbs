@@ -1,0 +1,57 @@
+import { ContainerModule, injectable, interfaces } from 'inversify';
+
+import {
+  {{pascalCase name}}DataMapper,
+  {{pascalCase name}}RemoteDataSource,
+  {{pascalCase name}}RepositoryImpl,
+} from './data';
+import { {{pascalCase name}}Repository, Get{{pascalCase name}}UseCase } from './domain';
+import { {{pascalCase name}}FeatureCoordinatorImpl } from './{{dashCase name}}.coordinator';
+import { ScreensFactory } from './{{dashCase name}}.screens-factory';
+import {
+  {{pascalCase name}}ScreenViewModel,
+  {{pascalCase name}}ScreenViewModelImpl,
+} from './presentation';
+import { {{pascalCase name}}FeatureApi, {{pascalCase name}}FeatureCoordinator } from './types';
+
+@injectable()
+export class {{pascalCase name}}Feature implements {{pascalCase name}}FeatureApi {
+  public static configure() {
+    return new ContainerModule((bind: interfaces.Bind) => {
+      // Data
+      bind({{pascalCase name}}RemoteDataSource).toSelf().inSingletonScope();
+      bind({{pascalCase name}}DataMapper).toSelf().inSingletonScope();
+      bind<{{pascalCase name}}Repository>({{pascalCase name}}Repository)
+        .to({{pascalCase name}}RepositoryImpl)
+        .inSingletonScope();
+
+      // Domain
+      bind(Get{{pascalCase name}}UseCase).toSelf().inTransientScope();
+
+      // View models
+      bind<{{pascalCase name}}ScreenViewModel>({{pascalCase name}}ScreenViewModel)
+        .to({{pascalCase name}}ScreenViewModelImpl)
+        .inTransientScope();
+      bind<interfaces.Factory<{{pascalCase name}}ScreenViewModel>>(
+        {{pascalCase name}}ScreenViewModel.autoFactory,
+      ).toAutoFactory<{{pascalCase name}}ScreenViewModel>({{pascalCase name}}ScreenViewModel);
+
+      // Screens
+      bind(ScreensFactory).toSelf().inTransientScope();
+
+      // Coordinator
+      bind<{{pascalCase name}}FeatureCoordinator>({{pascalCase name}}FeatureCoordinator)
+        .to({{pascalCase name}}FeatureCoordinatorImpl)
+        .inRequestScope();
+
+      // Feature
+      bind<{{pascalCase name}}FeatureApi>({{pascalCase name}}FeatureApi)
+        .to({{pascalCase name}}Feature)
+        .inRequestScope();
+    });
+  }
+
+  constructor(public readonly coordinator: {{pascalCase name}}FeatureCoordinator) {}
+}
+
+export { {{pascalCase name}}FeatureApi };

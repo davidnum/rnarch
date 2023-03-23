@@ -1,0 +1,9 @@
+import { Either } from 'monet';
+
+import { Failure } from '#core';
+
+import { {{pascalCase name}}Model } from '#features/{{dashCase name}}/domain/models';
+
+export abstract class {{pascalCase name}}Repository {
+  public abstract get{{pascalCase name}}(): Promise<Either<Failure, {{pascalCase name}}Model>>;
+}

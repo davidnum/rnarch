@@ -1,0 +1,20 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "reflect-metadata"
+    ],
+    "paths": {
+      "#*": [
+        "./src/*"
+      ]
+    },
+    "useDefineForClassFields": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+}

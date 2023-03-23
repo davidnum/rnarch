@@ -1,0 +1,7 @@
+import { z } from 'zod';
+
+export const {{pascalCase name}}ModelSchema = z.object({
+  text: z.string(),
+});
+
+export type {{pascalCase name}}Model = z.infer<typeof {{pascalCase name}}ModelSchema>;

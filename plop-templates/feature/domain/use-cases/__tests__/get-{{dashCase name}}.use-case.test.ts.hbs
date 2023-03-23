@@ -1,0 +1,45 @@
+import { mock } from 'jest-mock-extended';
+import { Either } from 'monet';
+
+import { Failure } from '#core';
+
+import { Get{{pascalCase name}}Failure } from '#features/{{dashCase name}}/domain/failures';
+import { {{pascalCase name}}Model } from '#features/{{dashCase name}}/domain/models';
+import { {{pascalCase name}}Repository } from '#features/{{dashCase name}}/domain/repositories';
+import { Get{{pascalCase name}}UseCase } from '#features/{{dashCase name}}/domain/use-cases';
+import { HttpFailure } from '#infrastructure/http';
+import { ModelValidator } from '#shared/validation';
+
+describe('Get{{pascalCase name}}UseCase', () => {
+  const setupUseCase = (either: Either<Failure, {{pascalCase name}}Model>) => {
+    const repo = mock<{{pascalCase name}}Repository>();
+    repo.get{{pascalCase name}}.mockResolvedValue(either);
+    const validator = mock<ModelValidator>();
+    validator.validate.mockImplementation(() => () => either);
+    return new Get{{pascalCase name}}UseCase(repo, validator);
+  };
+
+  it('should return an {{dashCase name}} if succeed', async () => {
+    // arrange
+    const useCase = setupUseCase(Either.right({ text: '{{dashCase name}}' }));
+
+    // act
+    const result = await useCase.execute();
+
+    // assert
+    expect(result.isRight()).toBeTruthy();
+    expect(result.right()).toEqual({ text: '{{dashCase name}}' });
+  });
+
+  it('should return an failure if failed', async () => {
+    // arrange
+    const useCase = setupUseCase(Either.left(new HttpFailure('error')));
+
+    // act
+    const result = await useCase.execute();
+
+    // assert
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.left()).toBeInstanceOf(Get{{pascalCase name}}Failure);
+  });
+});

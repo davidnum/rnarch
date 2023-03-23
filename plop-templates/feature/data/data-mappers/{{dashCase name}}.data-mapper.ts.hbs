@@ -1,0 +1,13 @@
+import { injectable } from 'inversify';
+
+import { {{pascalCase name}}Dto } from '#features/{{dashCase name}}/data/dto';
+import { {{pascalCase name}}Model } from '#features/{{dashCase name}}/domain';
+
+@injectable()
+export class {{pascalCase name}}DataMapper {
+  public toModel(dto: {{pascalCase name}}Dto): {{pascalCase name}}Model {
+    return {
+      text: dto.value,
+    };
+  }
+}

@@ -1,0 +1,41 @@
+import { mock } from 'jest-mock-extended';
+import { Either } from 'monet';
+
+import { {{pascalCase name}}DataMapper } from '#features/{{dashCase name}}/data/data-mappers';
+import { {{pascalCase name}}RemoteDataSource } from '#features/{{dashCase name}}/data/data-sources';
+import { {{pascalCase name}}RepositoryImpl } from '#features/{{dashCase name}}/data/repositories';
+import { HttpFailure } from '#infrastructure/http';
+
+describe('{{pascalCase name}}Repository', () => {
+  it('should return an {{dashCase name}} if succeed', async () => {
+    // arrange
+    const dataMapper = new {{pascalCase name}}DataMapper();
+    const dataSource = mock<{{pascalCase name}}RemoteDataSource>();
+    dataSource.get{{pascalCase name}}.mockResolvedValue(Either.right({ value: '{{dashCase name}}' }));
+    const repo = new {{pascalCase name}}RepositoryImpl(dataSource, dataMapper);
+
+    // act
+    const result = await repo.get{{pascalCase name}}();
+
+    // assert
+    expect(result.isRight()).toBeTruthy();
+    expect(result.right()).toEqual({ text: '{{dashCase name}}' });
+  });
+
+  it('should return an error if failure', async () => {
+    // arrange
+    const dataMapper = new {{pascalCase name}}DataMapper();
+    const dataSource = mock<{{pascalCase name}}RemoteDataSource>();
+    dataSource.get{{pascalCase name}}.mockResolvedValue(
+      Either.left(new HttpFailure('error')),
+    );
+    const repo = new {{pascalCase name}}RepositoryImpl(dataSource, dataMapper);
+
+    // act
+    const result = await repo.get{{pascalCase name}}();
+
+    // assert
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.left()).toBeInstanceOf(HttpFailure);
+  });
+});
