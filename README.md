@@ -1,0 +1,1 @@
+Example of react-native modular architecture with mobx, inversify and react-native-navigation(wix)
