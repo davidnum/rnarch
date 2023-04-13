@@ -22,7 +22,7 @@ export class AxiosHttpAdapter implements HttpClientAdapter {
     this.attachInterceptors();
   }
 
-  public async request<Data, Body = {}, Params = void>(
+  public async performRequest<Data, Body = {}, Params = void>(
     method: Method,
     url: string,
     config?: HttpRequestConfig<Params, Body>,

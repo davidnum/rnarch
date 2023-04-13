@@ -17,7 +17,7 @@ export interface HttpRequestConfig<Params, Body = {}> {
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export abstract class HttpClientAdapter {
-  public abstract request<Data, Body = {}, Params = void>(
+  public abstract performRequest<Data, Body = {}, Params = void>(
     method: HttpMethod,
     url: string,
     config?: HttpRequestConfig<Params, Body>,

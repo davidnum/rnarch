@@ -22,7 +22,11 @@ export class HttpClient {
     url: string,
     config?: HttpRequestConfig<Params, undefined>,
   ): Promise<Either<HttpFailure, HttpResponse<Data>>> {
-    return this.adapter.request<Data, undefined, Params>('GET', url, config);
+    return this.adapter.performRequest<Data, undefined, Params>(
+      'GET',
+      url,
+      config,
+    );
   }
 
   public async post<Data, Body = {}, Params = void>(
@@ -30,7 +34,7 @@ export class HttpClient {
     body: Body,
     config?: Omit<HttpRequestConfig<Params, Body>, 'body'>,
   ): Promise<Either<HttpFailure, HttpResponse<Data>>> {
-    return this.adapter.request<Data, Body, Params>('POST', url, {
+    return this.adapter.performRequest<Data, Body, Params>('POST', url, {
       ...config,
       body,
     });
@@ -41,7 +45,7 @@ export class HttpClient {
     body: Body,
     config?: Omit<HttpRequestConfig<Params, Body>, 'body'>,
   ): Promise<Either<HttpFailure, HttpResponse<Data>>> {
-    return this.adapter.request<Data, Body, Params>('PUT', url, {
+    return this.adapter.performRequest<Data, Body, Params>('PUT', url, {
       ...config,
       body,
     });
@@ -51,6 +55,10 @@ export class HttpClient {
     url: string,
     config?: HttpRequestConfig<Params, Body>,
   ): Promise<Either<HttpFailure, HttpResponse<Data>>> {
-    return this.adapter.request<Data, Body, Params>('DELETE', url, config);
+    return this.adapter.performRequest<Data, Body, Params>(
+      'DELETE',
+      url,
+      config,
+    );
   }
 }
