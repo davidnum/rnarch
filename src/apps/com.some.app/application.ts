@@ -4,9 +4,17 @@ import { Container, injectable } from 'inversify';
 
 import { Coordinator } from './coordinator';
 import { Features } from './features';
+import { HttpClientEnvironmentImpl } from './http-client.environment';
 
 import { SomeReportFeature } from '#features/some-report';
+import {
+  AxiosHttpAdapter,
+  HttpClientAdapter,
+  HttpClientEnvironment,
+} from '#infrastructure/http';
+import { ConsoleLoggerAdapter, LoggerAdapter } from '#infrastructure/logger';
 import { InfrastructureModule } from '#infrastructure/module';
+import { RNNRouterAdapter, RouterAdapter } from '#infrastructure/router';
 import { CommonModule } from '#shared/module';
 
 @injectable()
@@ -18,6 +26,24 @@ export class Application {
     container.load(CommonModule.configure());
 
     // Infrastructure
+    container
+      .bind<LoggerAdapter>(LoggerAdapter)
+      .to(ConsoleLoggerAdapter)
+      .inRequestScope();
+
+    container
+      .bind<HttpClientEnvironment>(HttpClientEnvironment)
+      .to(HttpClientEnvironmentImpl)
+      .inRequestScope();
+    container
+      .bind<HttpClientAdapter>(HttpClientAdapter)
+      .to(AxiosHttpAdapter)
+      .inRequestScope();
+
+    container
+      .bind<RouterAdapter>(RouterAdapter)
+      .to(RNNRouterAdapter)
+      .inRequestScope();
     container.load(InfrastructureModule.configure());
 
     // Features

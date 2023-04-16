@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import { Either } from 'monet';
 
 import { HttpClientAdapter } from './adapters';
@@ -15,6 +16,7 @@ export interface HttpRequestConfig<Params, Body = {}> {
   abortSignal?: AbortSignal;
 }
 
+@injectable()
 export class HttpClient {
   constructor(private readonly adapter: HttpClientAdapter) {}
 

@@ -7,8 +7,6 @@ type LogLevel = 'INFO' | 'ERROR';
 
 @injectable()
 export class Logger {
-  private readonly stringBuilder = new StringBuilder();
-
   constructor(
     @multiInject(LoggerAdapter)
     private readonly adapters: LoggerAdapter[],
@@ -16,7 +14,7 @@ export class Logger {
   ) {}
 
   public log(level: LogLevel, message: string, data?: Record<string, unknown>) {
-    const messageString = this.stringBuilder
+    const messageString = new StringBuilder()
       .appendDateTime()
       .appendTag(this.tag)
       .appendMessage(message)

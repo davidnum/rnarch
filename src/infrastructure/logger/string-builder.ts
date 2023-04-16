@@ -1,5 +1,5 @@
 export class StringBuilder {
-  private _printQueue: string[] = [];
+  private printQueue: string[] = [];
 
   public appendDateTime(): StringBuilder {
     // this._printQueue.push(getDateTime());
@@ -8,26 +8,26 @@ export class StringBuilder {
 
   public appendTag(tag?: string): StringBuilder {
     if (tag) {
-      this._printQueue.push(`[${tag}]`);
+      this.printQueue.push(`[${tag}]`);
     }
 
     return this;
   }
 
   public appendMessage(message: string): StringBuilder {
-    this._printQueue.push(message);
+    this.printQueue.push(message);
     return this;
   }
 
   public appendData(data?: Record<string, unknown>): StringBuilder {
     if (data) {
-      this._printQueue.push(`| ${JSON.stringify(data)}`);
+      this.printQueue.push(`| ${JSON.stringify(data)}`);
     }
 
     return this;
   }
 
   public build(): string {
-    return this._printQueue.join(' ');
+    return this.printQueue.join(' ');
   }
 }
