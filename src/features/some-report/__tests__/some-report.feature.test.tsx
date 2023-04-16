@@ -18,12 +18,10 @@ import { CommonModule } from '#shared/module';
 describe('SomeReportFeature', () => {
   it('should provide SomeReportFeatureCoordinator', () => {
     // arrange
-    const router = mock<Router>();
-    const httpClient = mock<HttpClient>();
     const container = new Container();
     container.load(CommonModule.configure());
-    container.bind(Router).toConstantValue(router);
-    container.bind(HttpClient).toConstantValue(httpClient);
+    container.bind(Router).toConstantValue(mock<Router>());
+    container.bind(HttpClient).toConstantValue(mock<HttpClient>());
     const module = SomeReportFeature.configure();
     container.load(module);
 

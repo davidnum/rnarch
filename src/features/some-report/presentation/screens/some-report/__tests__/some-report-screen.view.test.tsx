@@ -1,63 +1,53 @@
 import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
-import { act } from 'react-test-renderer';
 
 import { SomeReportScreen } from '#features/some-report/presentation/screens/some-report';
 
 describe('SomeReport screen', () => {
-  it('should render text from state', () => {
+  it('should render text from state', async () => {
     // arrange
-    const { getByText } = render(
+    const screen = render(
       <SomeReportScreen
         actions={{ finish: jest.fn() }}
         state={{ text: 'Screen', isLoading: false, hasError: false }}
       />,
     );
 
-    // act
-    const text = getByText('Screen');
-
     // assert
-    expect(text).toBeVisible();
+    expect(await screen.findByText('Screen')).toBeVisible();
   });
 
-  it('should render loading state', () => {
+  it('should render loading state', async () => {
     // arrange
-    const { getByText } = render(
+    const screen = render(
       <SomeReportScreen
         actions={{ finish: jest.fn() }}
         state={{ text: 'Screen', isLoading: true, hasError: false }}
       />,
     );
 
-    // act
-    const text = getByText('Loading');
-
     // assert
-    expect(text).toBeVisible();
+    expect(await screen.findByText('Loading')).toBeVisible();
   });
 
-  it('should render error state', () => {
+  it('should render error state', async () => {
     // arrange
 
-    const { getByText } = render(
+    const screen = render(
       <SomeReportScreen
         actions={{ finish: jest.fn() }}
         state={{ text: 'Screen', isLoading: false, hasError: true }}
       />,
     );
 
-    // act
-    const text = getByText('Error');
-
     // assert
-    expect(text).toBeVisible();
+    expect(await screen.findByText('Error')).toBeVisible();
   });
 
-  it('should call finish action when button pressed', () => {
+  it('should call finish action when button pressed', async () => {
     // arrange
     const finish = jest.fn();
-    const { getByText } = render(
+    const screen = render(
       <SomeReportScreen
         actions={{ finish }}
         state={{ text: '', isLoading: false, hasError: false }}
@@ -65,10 +55,7 @@ describe('SomeReport screen', () => {
     );
 
     // act
-
-    act(() => {
-      fireEvent.press(getByText('Finish'));
-    });
+    fireEvent.press(await screen.findByText('Finish'));
 
     // assert
     expect(finish).toBeCalled();
