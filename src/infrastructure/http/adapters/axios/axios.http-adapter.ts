@@ -8,10 +8,7 @@ import { loggerInterceptor, retryInterceptor } from './interceptors';
 
 import { HttpClientEnvironment } from '#infrastructure/http/environment';
 import { HttpFailure } from '#infrastructure/http/failures';
-import {
-  HttpRequestConfig,
-  HttpResponse,
-} from '#infrastructure/http/http-client';
+import { HttpRequestConfig, HttpResponse } from '#infrastructure/http/types';
 
 @injectable()
 export class AxiosHttpAdapter implements HttpClientAdapter {
